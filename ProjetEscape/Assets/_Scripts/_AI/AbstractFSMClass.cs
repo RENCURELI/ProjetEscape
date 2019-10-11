@@ -14,6 +14,7 @@ public enum ExecutionState
 public enum FSMStateType
 {
     NONE,
+    IDLE,
     PATROL,
     ATTACK,
 };
@@ -31,7 +32,7 @@ public abstract class AbstractFSMClass : ScriptableObject
     /// <summary>
     /// Default setup : None active
     /// </summary>
-    public virtual void OnEnabled()
+    public virtual void OnEnable()
     {
         ExecutionState = ExecutionState.NONE;
     }
