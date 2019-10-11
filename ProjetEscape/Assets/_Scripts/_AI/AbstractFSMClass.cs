@@ -20,7 +20,8 @@ public enum FSMStateType
 
 public abstract class AbstractFSMClass : ScriptableObject
 {
-
+    protected NavMeshAgent _navMeshAgent;
+    protected NPC _npc;
     protected FiniteStateMachine _fsm;
 
     public ExecutionState ExecutionState { get; protected set; }
@@ -41,9 +42,17 @@ public abstract class AbstractFSMClass : ScriptableObject
     /// <returns></returns>
     public virtual bool EnterState()
     {
-        //WIP
+        bool successNavMesh = true;
+        bool successNPC = true;
+        ExecutionState = ExecutionState.ACTIVE;
 
-        return true;
+        //Does navmesh agent exist
+        successNavMesh = (_navMeshAgent != null);
+
+        //Does executing agent exist
+        successNPC = (_npc != null);
+
+        return successNavMesh & successNPC;
     }
 
 
@@ -60,5 +69,29 @@ public abstract class AbstractFSMClass : ScriptableObject
     {
         ExecutionState = ExecutionState.COMPLETED;
         return true;
+    }
+
+    public virtual void SetNavMeshAgent(NavMeshAgent navMeshAgent)
+    {
+        if (navMeshAgent != null)
+        {
+            _navMeshAgent = navMeshAgent;
+        }
+    }
+
+    public virtual void SetExecutingFSM(FiniteStateMachine fsm)
+    {
+        if (fsm != null)
+        {
+            _fsm = fsm;
+        }
+    }
+
+    public virtual void SetExecutingNPC(NPC npc)
+    {
+        if (npc != null)
+        {
+            _npc = npc;
+        }
     }
 }

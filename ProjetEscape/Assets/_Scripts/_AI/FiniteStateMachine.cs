@@ -15,15 +15,68 @@ public class FiniteStateMachine : MonoBehaviour
 
     Dictionary<FSMStateType, AbstractFSMClass> _fsmStates;
 
+    public void Awake()
+    {
+        _currentState = null;
+        _fsmStates = new Dictionary<FSMStateType, AbstractFSMClass>();
+
+        NavMeshAgent navMeshAgent = this.GetComponent<NavMeshAgent>();
+        NPC npc = this.GetComponent<NPC>();
+
+        foreach (AbstractFSMClass state in _validStates)
+        {
+            state.SetExecutingFSM(this);
+            state.SetExecutingNPC(npc);
+            state.SetNavMeshAgent(navMeshAgent);
+            _fsmStates.Add(state.FSMStateType, state);
+        }
+
+    }
+
     // Start is called before the first frame update
     void Start()
     {
-        
+        if (_startingState != null)
+        {
+            EnterState(_startingState);
+        }
     }
 
-    // Update is called once per frame
-    void Update()
+    public void Update()
     {
-        
+        if (_currentState != null)
+        {
+            _currentState.UpdateState();
+        }
     }
+
+    #region STATE MANAGEMENT
+
+    public void EnterState(AbstractFSMClass nextState)
+    {
+        if (_startingState == null)
+        {
+            return;
+        }
+
+        if (_currentState != null)
+        {
+            _currentState.ExitState();
+        }
+
+        _currentState = nextState;
+        _currentState.EnterState();
+    }
+
+    public void EnterState(FSMStateType Type)
+    {
+        if (_fsmStates.ContainsKey(Type))
+        {
+            AbstractFSMClass nextstate = _fsmStates[Type];
+
+            EnterState(nextstate);
+        }
+    }
+
+    #endregion
 }
