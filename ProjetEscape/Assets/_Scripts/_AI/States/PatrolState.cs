@@ -8,6 +8,11 @@ public class PatrolState : AbstractFSMClass
     PatrolPoints[] _patrolPoints;
     int _patrolPointIndex;
 
+    ConnectedWayPoints _currentWaypoint;
+    ConnectedWayPoints _previousWaypoint;
+
+    int visitedWaypoint;
+
 
     public override void OnEnable()
     {
@@ -24,25 +29,40 @@ public class PatrolState : AbstractFSMClass
             //Grab and store Patrol Points
             _patrolPoints = _npc.PatrolPoint;
 
-            if (_patrolPoints == null || _patrolPoints.Length == 0)
+            if (_currentWaypoint == null)
             {
-                Debug.Log("Patrol state failed");
+                //Debug.Log("Patrol state failed");
+                GameObject[] allWaypoints = GameObject.FindGameObjectsWithTag("waypoint");
 
+                if(allWaypoints.Length > 0)
+                {
+                    while(_currentWaypoint == null)
+                    {
+                        int random = UnityEngine.Random.Range(0, allWaypoints.Length);
+                        ConnectedWayPoints startingWaypoint = allWaypoints[random].GetComponent<ConnectedWayPoints>();
+
+                        if(startingWaypoint != null)
+                        {
+                            _currentWaypoint = startingWaypoint;
+                            //EnteredState = true;
+                        }
+                    }
+                }
             }
-            else
-            {
-                if (_patrolPointIndex < 0)
+
+            if (visitedWaypoint > 0)
                 {
-                    _patrolPointIndex = UnityEngine.Random.Range(0, _patrolPoints.Length);
-                }
-                else
-                {
-                    _patrolPointIndex = (_patrolPointIndex++) % _patrolPoints.Length;
+                    ConnectedWayPoints nextWaypoint = _currentWaypoint.NextWayPoint(_previousWaypoint);
+                    _previousWaypoint = _currentWaypoint;
+                    _currentWaypoint = nextWaypoint;
                 }
 
-                SetDestination(_patrolPoints[_patrolPointIndex]);
+                Vector3 targetVector = _currentWaypoint.transform.position;
+                _navMeshAgent.SetDestination(targetVector);
+
+                //SetDestination(_patrolPoints[_patrolPointIndex]);
+                Debug.Log("ENTERRED PATROL STATE");
                 EnteredState = true;
-            }
         }
         return EnteredState;
     }
@@ -52,11 +72,20 @@ public class PatrolState : AbstractFSMClass
         //TODO : Check successfull state entry
         if (EnteredState)
         {
-            if (Vector3.Distance(_navMeshAgent.transform.position, _patrolPoints[_patrolPointIndex].transform.position) <= 1f)
+            Debug.Log("UPDATING PATROL STATE");
+            if (Vector3.Distance(_navMeshAgent.transform.position, _currentWaypoint.transform.position) <= 1.5f)
             {
+                visitedWaypoint++;
                 _fsm.EnterState(FSMStateType.IDLE);
             }
         }
+    }
+
+    public override bool ExitState()
+    {
+        base.ExitState();
+        Debug.Log("EXITED PATROL STATE");
+        return true;
     }
 
     private void SetDestination(PatrolPoints destination)

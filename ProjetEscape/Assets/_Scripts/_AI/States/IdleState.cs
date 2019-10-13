@@ -6,7 +6,7 @@ using UnityEngine;
 public class IdleState : AbstractFSMClass
 {
     [SerializeField]
-    float _idleDuration = 3.0f;
+    const float _idleDuration = 3.0f;
 
     float _totalDuration;
 
@@ -23,9 +23,8 @@ public class IdleState : AbstractFSMClass
 
         if (EnteredState)
         {
-            _totalDuration = 0f;
+           _totalDuration = 0f;
         }
-
         EnteredState = true;
         return EnteredState;
     }
@@ -33,16 +32,17 @@ public class IdleState : AbstractFSMClass
     public override void UpdateState()
     {
 
-        if (EnteredState)
+        if (EnteredState == true)
         {
             _totalDuration += Time.deltaTime;
             Debug.Log("UPDATING IDLE STATE" + _totalDuration);
+            if (_totalDuration >= _idleDuration)
+            {
+                Debug.Log("EXITING IDLE STATE");
+                _fsm.EnterState(FSMStateType.PATROL);
+            }
         }
-
-        if (_totalDuration >= _idleDuration)
-        {
-            _fsm.EnterState(FSMStateType.PATROL);
-        }
+        
     }
 
     public override bool ExitState()

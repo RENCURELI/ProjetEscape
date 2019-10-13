@@ -25,7 +25,7 @@ public class ConnectedWayPoints : PatrolPoints
             //waypoint found
             if (nextWaypoint != null)
             {
-                if (Vector3.Distance(this.transform.position, nextWaypoint.transform.position) <= _connectivityRadius && nextWaypoint != null)
+                if (Vector3.Distance(this.transform.position, nextWaypoint.transform.position) <= _connectivityRadius && nextWaypoint != this)
                 {
                     _connections.Add(nextWaypoint);
                 }

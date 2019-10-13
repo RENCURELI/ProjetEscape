@@ -13,6 +13,7 @@ public class NPC : MonoBehaviour
 
     [SerializeField]
     PatrolPoints[] _patrolPoints;
+    
 
     public void Awake()
     {
