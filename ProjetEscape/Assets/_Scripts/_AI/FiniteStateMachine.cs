@@ -77,6 +77,7 @@ public class FiniteStateMachine : MonoBehaviour
             EnterState(nextstate);
         }
     }
+    
 
     #endregion
 }

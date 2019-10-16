@@ -508,7 +508,7 @@ NavMeshAgent:
   m_AngularSpeed: 120
   m_StoppingDistance: 0
   m_AutoTraverseOffMeshLink: 1
-  m_AutoBraking: 1
+  m_AutoBraking: 0
   m_AutoRepath: 1
   m_Height: 2
   m_BaseOffset: 1
@@ -530,6 +530,7 @@ MonoBehaviour:
   _validStates:
   - {fileID: 11400000, guid: 6f38bb8f81b64e8418b54f9be6229eba, type: 2}
   - {fileID: 11400000, guid: ef9b085d6bdc261429df0817ce36d0ea, type: 2}
+  - {fileID: 11400000, guid: 43846b9091067964ea6dc8b409d70e84, type: 2}
 --- !u!114 &1166614727
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -559,6 +560,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   detectRate: 1
+  spotted:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 11400000, guid: ef9b085d6bdc261429df0817ce36d0ea, type: 2}
+        m_MethodName: DetectedPlayer
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  lost:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &1524738085
 GameObject:
   m_ObjectHideFlags: 0

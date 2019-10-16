@@ -72,6 +72,11 @@ public abstract class AbstractFSMClass : ScriptableObject
         return true;
     }
 
+    public virtual void DetectedPlayer()
+    {
+        
+    }
+
     public virtual void SetNavMeshAgent(NavMeshAgent navMeshAgent)
     {
         if (navMeshAgent != null)

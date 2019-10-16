@@ -96,4 +96,9 @@ public class PatrolState : AbstractFSMClass
         }
 
     }
+
+    public override void DetectedPlayer()
+    {
+        _fsm.EnterState(FSMStateType.ATTACK);
+    }
 }

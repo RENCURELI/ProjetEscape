@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace Assets._Scripts._AI.Senses
 {
@@ -15,14 +16,20 @@ namespace Assets._Scripts._AI.Senses
         private Transform playerTrans;
         private Vector3 rayDirection;
 
+        //Base for sending messages upon spotting or losing the player
+        public UnityEvent spotted;
+        public UnityEvent lost;
+
         protected override void Initialize()
         {
             playerTrans = GameObject.FindGameObjectWithTag("Player").transform;
+            Debug.Log("Detect Rate = " + detectRate);
         }
 
         protected override void UpdateSenses()
         {
-            elapsedTime = Time.deltaTime;
+            elapsedTime += Time.deltaTime;
+            Debug.Log("elapsedTime = " + elapsedTime);
             if (elapsedTime >= detectRate)
                 DetectPlayer();
         }
@@ -40,9 +47,13 @@ namespace Assets._Scripts._AI.Senses
                     Player player = hit.collider.GetComponent<Player>();
 
                     if (player != null)
+                    {
                         Debug.Log("Player detected");
+                        spotted.Invoke();
+                    }  
                 }
             }
+            elapsedTime = 0.0f;
         }
 
         void OnDrawGizmos()
