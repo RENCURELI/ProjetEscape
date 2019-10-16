@@ -10,7 +10,7 @@ namespace Assets._Scripts._AI.Senses
 {
     public class Sight : Sense
     {
-        protected int fov = 45;
+        protected int fov = 30;
         protected int viewRange = 30;
 
         private Transform playerTrans;
@@ -40,7 +40,7 @@ namespace Assets._Scripts._AI.Senses
 
             rayDirection = playerTrans.position - transform.position;
 
-            if((Vector3.Angle(rayDirection, transform.forward)) < fov)
+            if((Vector3.Angle(rayDirection, transform.forward)) >= -fov && (Vector3.Angle(rayDirection, transform.forward)) <= fov)
             {
                 if(Physics.Raycast(transform.position, rayDirection, out hit, viewRange))
                 {

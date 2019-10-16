@@ -51,11 +51,11 @@ public class PatrolState : AbstractFSMClass
             }
 
             if (visitedWaypoint > 0)
-                {
-                    ConnectedWayPoints nextWaypoint = _currentWaypoint.NextWayPoint(_previousWaypoint);
-                    _previousWaypoint = _currentWaypoint;
-                    _currentWaypoint = nextWaypoint;
-                }
+            {
+                ConnectedWayPoints nextWaypoint = _currentWaypoint.NextWayPoint(_previousWaypoint);
+                _previousWaypoint = _currentWaypoint;
+                _currentWaypoint = nextWaypoint;
+            }
 
                 Vector3 targetVector = _currentWaypoint.transform.position;
                 _navMeshAgent.SetDestination(targetVector);

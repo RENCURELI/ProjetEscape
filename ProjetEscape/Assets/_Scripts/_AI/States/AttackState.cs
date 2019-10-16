@@ -10,6 +10,9 @@ namespace Assets._Scripts._AI.States
     [CreateAssetMenu(fileName = "AttackState", menuName = "ProjetEscape/States/Attack", order = 3)]
     public class AttackState : AbstractFSMClass
     {
+        Transform player;
+
+
         public override void OnEnable()
         {
             base.OnEnable();
@@ -21,9 +24,13 @@ namespace Assets._Scripts._AI.States
             EnteredState = false;
             if (base.EnterState())
             {
-                //TO IMPLEMENT
+                player = GameObject.FindGameObjectWithTag("Player").transform;
+                Vector3 targetVector = player.transform.position;
+                _navMeshAgent.SetDestination(targetVector);
+                Debug.Log("ENTERRED ATTACK STATE");
+                EnteredState = true;
             }
-
+            
             return EnteredState;
         }
 
@@ -32,15 +39,24 @@ namespace Assets._Scripts._AI.States
         {
             if (EnteredState)
             {
-
+                Debug.Log("UPDATING ATTACK STATE");
             }
         }
 
         public override bool ExitState()
         {
             base.ExitState();
-
+            Debug.Log("EXITED ATTACK STATE");
             return true;
+        }
+
+        private void SetDestination(PatrolPoints destination)
+        {
+            if (_navMeshAgent != null && destination != null)
+            {
+                _navMeshAgent.SetDestination(destination.transform.position);
+            }
+
         }
     }
 }
