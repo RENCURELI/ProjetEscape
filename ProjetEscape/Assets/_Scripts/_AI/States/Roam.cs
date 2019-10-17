@@ -60,12 +60,16 @@ namespace Assets._Scripts._AI.States
         {
             if (EnteredState)
             {
+                elapsedTime += Time.deltaTime;
                 if(Vector3.Distance(_navMeshAgent.transform.position, _currentDest) <= 1.5f)
                 {
                     roamDest = new Vector3(UnityEngine.Random.Range(min_x, max_x), 0.5f, UnityEngine.Random.Range(min_z, max_z));
                     _currentDest = roamDest;
                     _navMeshAgent.SetDestination(_currentDest);
                 }
+
+                if (elapsedTime >= roamDuration)
+                    _fsm.EnterState(FSMStateType.PATROL);
                 
                 Debug.Log("UPDATING ROAM STATE");
             }

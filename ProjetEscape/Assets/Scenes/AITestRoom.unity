@@ -303,7 +303,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   debugDrawRadius: 1
-  _connectivityRadius: 50
+  _connectivityRadius: 10
 --- !u!1 &1129328341
 GameObject:
   m_ObjectHideFlags: 0
@@ -782,7 +782,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   debugDrawRadius: 1
-  _connectivityRadius: 50
+  _connectivityRadius: 10
 --- !u!1 &1773121623
 GameObject:
   m_ObjectHideFlags: 0
@@ -910,7 +910,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   debugDrawRadius: 1
-  _connectivityRadius: 50
+  _connectivityRadius: 10
 --- !u!1 &1858235058
 GameObject:
   m_ObjectHideFlags: 0
