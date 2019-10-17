@@ -22,9 +22,14 @@ namespace Assets._Scripts._AI.States
         Vector3 roamDest;
 
         /// <summary>
+        /// Current destination of the navmesh agent
+        /// </summary>
+        Vector3 _currentDest;
+
+        /// <summary>
         /// Roaming distance constraints
         /// </summary>
-        int min_x, max_x, min_z, max_z;
+        int min_x = -10, max_x = 10, min_z = -10, max_z = 10;
 
         float elapsedTime = 0.0f;
 
@@ -42,10 +47,12 @@ namespace Assets._Scripts._AI.States
             EnteredState = false;
             if (base.EnterState())
             {
-                
+                lastPCPos = GameObject.FindGameObjectWithTag("Player").transform.position;
+                _currentDest = lastPCPos;
+                _navMeshAgent.SetDestination(_currentDest);
                 EnteredState = true;
             }
-
+            Debug.Log("ENTERRED ROAM STATE");
             return EnteredState;
         }
 
@@ -53,6 +60,13 @@ namespace Assets._Scripts._AI.States
         {
             if (EnteredState)
             {
+                if(Vector3.Distance(_navMeshAgent.transform.position, _currentDest) <= 1.5f)
+                {
+                    roamDest = new Vector3(UnityEngine.Random.Range(min_x, max_x), 0.5f, UnityEngine.Random.Range(min_z, max_z));
+                    _currentDest = roamDest;
+                    _navMeshAgent.SetDestination(_currentDest);
+                }
+                
                 Debug.Log("UPDATING ROAM STATE");
             }
         }

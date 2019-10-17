@@ -13,6 +13,8 @@ namespace Assets._Scripts._AI.Senses
         protected int fov = 30;
         protected int viewRange = 30;
 
+        private bool found = false;
+
         private Transform playerTrans;
         private Vector3 rayDirection;
 
@@ -49,13 +51,16 @@ namespace Assets._Scripts._AI.Senses
                     if (player != null)
                     {
                         Debug.Log("Player detected");
+                        found = true;
                         spotted.Invoke();
                     }
                 }
             }
-            else
+            else if(found == true)
+            {
+                found = false;
                 lost.Invoke();
-
+            }
             elapsedTime = 0.0f;
         }
 
