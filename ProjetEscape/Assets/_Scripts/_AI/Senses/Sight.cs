@@ -40,9 +40,9 @@ namespace Assets._Scripts._AI.Senses
 
             rayDirection = playerTrans.position - transform.position;
 
-            if((Vector3.Angle(rayDirection, transform.forward)) >= -fov && (Vector3.Angle(rayDirection, transform.forward)) <= fov)
+            if ((Vector3.Angle(rayDirection, transform.forward)) >= -fov && (Vector3.Angle(rayDirection, transform.forward)) <= fov)
             {
-                if(Physics.Raycast(transform.position, rayDirection, out hit, viewRange))
+                if (Physics.Raycast(transform.position, rayDirection, out hit, viewRange))
                 {
                     Player player = hit.collider.GetComponent<Player>();
 
@@ -50,9 +50,12 @@ namespace Assets._Scripts._AI.Senses
                     {
                         Debug.Log("Player detected");
                         spotted.Invoke();
-                    }  
+                    }
                 }
             }
+            else
+                lost.Invoke();
+
             elapsedTime = 0.0f;
         }
 
