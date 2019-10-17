@@ -58,5 +58,10 @@ namespace Assets._Scripts._AI.States
             }
 
         }
+
+        public void LostPlayer()
+        {
+            _fsm.EnterState(FSMStateType.ROAM);
+        }
     }
 }
