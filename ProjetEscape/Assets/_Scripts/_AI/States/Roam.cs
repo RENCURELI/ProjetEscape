@@ -29,12 +29,12 @@ namespace Assets._Scripts._AI.States
         /// <summary>
         /// Roaming distance constraints
         /// </summary>
-        int min_x = -10, max_x = 10, min_z = -10, max_z = 10;
+        int min_x = -5, max_x = 5, min_z = -5, max_z = 5;
 
         float elapsedTime = 0.0f;
 
         [SerializeField]
-        float roamDuration = 6.0f;
+        float roamDuration = 8.0f;
 
         public override void OnEnable()
         {
@@ -47,6 +47,7 @@ namespace Assets._Scripts._AI.States
             EnteredState = false;
             if (base.EnterState())
             {
+                elapsedTime = 0.0f;
                 lastPCPos = GameObject.FindGameObjectWithTag("Player").transform.position;
                 _currentDest = lastPCPos;
                 _navMeshAgent.SetDestination(_currentDest);
@@ -72,6 +73,7 @@ namespace Assets._Scripts._AI.States
                     _fsm.EnterState(FSMStateType.PATROL);
                 
                 Debug.Log("UPDATING ROAM STATE");
+                Debug.Log("Roaming Time = " + elapsedTime);
             }
         }
 

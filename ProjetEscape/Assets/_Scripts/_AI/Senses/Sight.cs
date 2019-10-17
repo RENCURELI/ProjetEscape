@@ -31,7 +31,7 @@ namespace Assets._Scripts._AI.Senses
         protected override void UpdateSenses()
         {
             elapsedTime += Time.deltaTime;
-            Debug.Log("elapsedTime = " + elapsedTime);
+            //Debug.Log("elapsedTime = " + elapsedTime);
             if (elapsedTime >= detectRate)
                 DetectPlayer();
         }
