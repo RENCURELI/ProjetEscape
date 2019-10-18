@@ -24,6 +24,9 @@ public class PatrolState : AbstractFSMClass
     float angle;
 
     Quaternion rotation;
+    Quaternion prevRotation;
+
+    private bool rotated = false;
 
     public override void OnEnable()
     {
@@ -39,6 +42,7 @@ public class PatrolState : AbstractFSMClass
         {
             //Grab and store Patrol Points
             _patrolPoints = _npc.PatrolPoint;
+            prevRotation = _navMeshAgent.transform.rotation;
 
             if (_currentWaypoint == null)
             {
@@ -73,20 +77,26 @@ public class PatrolState : AbstractFSMClass
             }
 
                 /*Vector3 targetVector = _currentWaypoint.transform.position;
-            if(angle > 0 && angle < 180)
+            if (angle > 0 && angle < 180)
             {
-                rotation = Quaternion.LookRotation(new Vector3(_navMeshAgent.transform.rotation.x, _navMeshAgent.transform.rotation.y - 30, _navMeshAgent.transform.rotation.z));
-                _navMeshAgent.transform.rotation = rotation;
-            } else if(angle < 0 && angle >= 180)
+                rotation = Quaternion.LookRotation(new Vector3(nextDestDir.x, nextDestDir.y - 30));
+                //_navMeshAgent.transform.rotation = rotation;
+                _navMeshAgent.transform.Rotate(rotation.x, rotation.y, rotation.z, Space.Self);
+                if(_navMeshAgent.transform.rotation.y == prevRotation.y - 30)
+                    _navMeshAgent.SetDestination(targetVector);
+            }
+            else if (angle < 0 && angle >= 180)
             {
-                rotation = Quaternion.LookRotation(new Vector3(_navMeshAgent.transform.rotation.x, _navMeshAgent.transform.rotation.y + 30, _navMeshAgent.transform.rotation.z));
-                _navMeshAgent.transform.rotation = rotation;
+                rotation = Quaternion.LookRotation(new Vector3(nextDestDir.x, nextDestDir.y + 30));
+                _navMeshAgent.transform.Rotate(rotation.x, rotation.y, rotation.z, Space.Self);
+                if(_navMeshAgent.transform.rotation.y == prevRotation.y + 30)
+                    _navMeshAgent.SetDestination(targetVector);
             }
             else
                 _navMeshAgent.SetDestination(targetVector);*/
 
-                //SetDestination(_patrolPoints[_patrolPointIndex]);
-                Debug.Log("ENTERRED PATROL STATE");
+            //SetDestination(_patrolPoints[_patrolPointIndex]);
+            Debug.Log("ENTERRED PATROL STATE");
                 EnteredState = true;
         }
         return EnteredState;
@@ -98,21 +108,33 @@ public class PatrolState : AbstractFSMClass
         if (EnteredState)
         {
             Vector3 targetVector = _currentWaypoint.transform.position;
-            if (angle > 0 && angle < 180)
+            if (angle > 0 && angle < 180 && rotated == false)
             {
                 rotation = Quaternion.LookRotation(new Vector3(nextDestDir.x, nextDestDir.y - 30));
                 //_navMeshAgent.transform.rotation = rotation;
-                _navMeshAgent.transform.Rotate(rotation.x, rotation.y, rotation.z, Space.Self);
+                _navMeshAgent.transform.Rotate(rotation.x, rotation.y, rotation.z, Space.World);
+                if (_navMeshAgent.transform.rotation.y <= prevRotation.y - 30)
+                {
+                    rotated = true;
+                    _navMeshAgent.SetDestination(targetVector);
+                }
             }
-            else if (angle < 0 && angle >= 180)
+            else if (angle < 0 && angle >= 180 && rotated == false)
             {
                 rotation = Quaternion.LookRotation(new Vector3(nextDestDir.x, nextDestDir.y + 30));
-                _navMeshAgent.transform.Rotate(rotation.x, rotation.y, rotation.z, Space.Self);
+                _navMeshAgent.transform.Rotate(rotation.x, rotation.y, rotation.z, Space.World);
+                if (_navMeshAgent.transform.rotation.y >= prevRotation.y + 30)
+                {
+                    rotated = true;
+                    _navMeshAgent.SetDestination(targetVector);
+                }   
             }
             else
+            {
+                rotated = true;
                 _navMeshAgent.SetDestination(targetVector);
-            /*Vector3 targetVector = _currentWaypoint.transform.position;
-            _navMeshAgent.SetDestination(targetVector);*/
+            }
+
             Debug.Log("UPDATING PATROL STATE");
             if (Vector3.Distance(_navMeshAgent.transform.position, _currentWaypoint.transform.position) <= 1.5f)
             {
