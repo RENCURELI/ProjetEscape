@@ -113,17 +113,21 @@ public class PatrolState : AbstractFSMClass
                 rotation = Quaternion.LookRotation(new Vector3(nextDestDir.x, nextDestDir.y - 30));
                 //_navMeshAgent.transform.rotation = rotation;
                 _navMeshAgent.transform.Rotate(rotation.x, rotation.y, rotation.z, Space.World);
-                if (_navMeshAgent.transform.rotation.y <= prevRotation.y - 30)
+                Debug.Log("Previous rotation = " + prevRotation.eulerAngles.y);
+                Debug.Log("Current Rotation = " + _navMeshAgent.transform.rotation.eulerAngles.y);
+                if (_navMeshAgent.transform.rotation.y <= (prevRotation.eulerAngles.y - 30))
                 {
                     rotated = true;
                     _navMeshAgent.SetDestination(targetVector);
                 }
             }
-            else if (angle < 0 && angle >= 180 && rotated == false)
+            else if (angle < 0 && angle >= -180 && rotated == false)
             {
                 rotation = Quaternion.LookRotation(new Vector3(nextDestDir.x, nextDestDir.y + 30));
                 _navMeshAgent.transform.Rotate(rotation.x, rotation.y, rotation.z, Space.World);
-                if (_navMeshAgent.transform.rotation.y >= prevRotation.y + 30)
+                Debug.Log("Previous rotation = " + prevRotation.eulerAngles.y);
+                Debug.Log("Current Rotation = " + _navMeshAgent.transform.rotation.eulerAngles.y);
+                if (_navMeshAgent.transform.rotation.y >= (prevRotation.eulerAngles.y + 30))
                 {
                     rotated = true;
                     _navMeshAgent.SetDestination(targetVector);
