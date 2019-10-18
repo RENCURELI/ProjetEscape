@@ -13,6 +13,16 @@ public class PatrolState : AbstractFSMClass
 
     int visitedWaypoint;
 
+    /// <summary>
+    /// Get the direction towards the next waypoint
+    /// </summary>
+    Vector3 nextDestDir;
+
+    /// <summary>
+    /// The Y axis rotation 
+    /// </summary>
+    float angle;
+
 
     public override void OnEnable()
     {
@@ -44,6 +54,8 @@ public class PatrolState : AbstractFSMClass
                         if(startingWaypoint != null)
                         {
                             _currentWaypoint = startingWaypoint;
+                            nextDestDir = _currentWaypoint.transform.position - _navMeshAgent.transform.position;
+                            angle = Vector3.Angle(nextDestDir, _navMeshAgent.transform.forward);
                             //EnteredState = true;
                         }
                     }
@@ -55,9 +67,18 @@ public class PatrolState : AbstractFSMClass
                 ConnectedWayPoints nextWaypoint = _currentWaypoint.NextWayPoint(_previousWaypoint);
                 _previousWaypoint = _currentWaypoint;
                 _currentWaypoint = nextWaypoint;
+                nextDestDir = _currentWaypoint.transform.position - _navMeshAgent.transform.position;
+                angle = Vector3.Angle(nextDestDir, _navMeshAgent.transform.forward);
             }
 
                 Vector3 targetVector = _currentWaypoint.transform.position;
+            if(angle > 0 && angle < 180)
+            {
+
+            }else if(angle < 0 && angle >= 180)
+            {
+
+            }else
                 _navMeshAgent.SetDestination(targetVector);
 
                 //SetDestination(_patrolPoints[_patrolPointIndex]);

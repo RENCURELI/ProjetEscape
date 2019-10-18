@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f5c5609627473304a8788811f60291aa, type: 3}
   m_Name: RoamState
   m_EditorClassIdentifier: 
-  roamDuration: 6
+  roamDuration: 8
