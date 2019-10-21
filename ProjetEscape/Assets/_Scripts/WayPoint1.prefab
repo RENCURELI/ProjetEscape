@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 737226794555825434}
-  - component: {fileID: 737226794555825435}
+  - component: {fileID: 1440503594}
   m_Layer: 0
   m_Name: WayPoint1
   m_TagString: waypoint
@@ -31,7 +31,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &737226794555825435
+--- !u!114 &1440503594
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -40,8 +40,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 737226794555825433}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c1632b75d655a6346adc94620445bd6a, type: 3}
+  m_Script: {fileID: 11500000, guid: e7fe4549db87c644ab4fc47038be18c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   debugDrawRadius: 1
-  _connectivityRadius: 25
+  _connectivityRadius: 50
