@@ -43,13 +43,16 @@ public class PatrolState : AbstractFSMClass
             //Grab and store Patrol Points
             _patrolPoints = _npc.PatrolPoint;
             prevRotation = _navMeshAgent.transform.rotation;
+            //rotated = false;
 
             if (_currentWaypoint == null)
             {
                 //Debug.Log("Patrol state failed");
                 GameObject[] allWaypoints = GameObject.FindGameObjectsWithTag("waypoint");
-
-                if(allWaypoints.Length > 0)
+                //prevRotation = _navMeshAgent.transform.rotation;
+                prevRotation = Quaternion.Euler(_navMeshAgent.transform.forward);
+                Debug.Log("Previous rotation" + prevRotation);
+                if (allWaypoints.Length > 0)
                 {
                     while(_currentWaypoint == null)
                     {
@@ -58,9 +61,11 @@ public class PatrolState : AbstractFSMClass
 
                         if(startingWaypoint != null)
                         {
+                            rotated = false;
                             _currentWaypoint = startingWaypoint;
                             nextDestDir = _currentWaypoint.transform.position - _navMeshAgent.transform.position;
                             angle = Vector3.Angle(nextDestDir, _navMeshAgent.transform.forward);
+                            Debug.Log("Angle value = " + angle);
                             //EnteredState = true;
                         }
                     }
@@ -69,34 +74,36 @@ public class PatrolState : AbstractFSMClass
 
             if (visitedWaypoint > 0)
             {
+                //prevRotation = Quaternion.Euler(_navMeshAgent.transform.forward);
+                prevRotation = Quaternion.Euler(Vector3.zero);
+                Debug.Log("Previous rotation" + prevRotation.eulerAngles.y);
+                rotated = false;
                 ConnectedWayPoints nextWaypoint = _currentWaypoint.NextWayPoint(_previousWaypoint);
                 _previousWaypoint = _currentWaypoint;
                 _currentWaypoint = nextWaypoint;
                 nextDestDir = _currentWaypoint.transform.position - _navMeshAgent.transform.position;
                 angle = Vector3.Angle(nextDestDir, _navMeshAgent.transform.forward);
+                Debug.Log("Angle value = " + angle);
             }
 
-                /*Vector3 targetVector = _currentWaypoint.transform.position;
-            if (angle > 0 && angle < 180)
+            /*Vector3 targetVector = _currentWaypoint.transform.position;
+            if (angle > 0 && angle < 180 && rotated == false)
             {
-                rotation = Quaternion.LookRotation(new Vector3(nextDestDir.x, nextDestDir.y - 30));
-                //_navMeshAgent.transform.rotation = rotation;
-                _navMeshAgent.transform.Rotate(rotation.x, rotation.y, rotation.z, Space.Self);
-                if(_navMeshAgent.transform.rotation.y == prevRotation.y - 30)
-                    _navMeshAgent.SetDestination(targetVector);
+                //rotation = Quaternion.LookRotation(new Vector3(nextDestDir.x, nextDestDir.y - 30));
+                rotation = Quaternion.Euler(new Vector3(nextDestDir.x, nextDestDir.y - 30));
             }
-            else if (angle < 0 && angle >= 180)
+            else if (angle < 360 && angle >= 180 && rotated == false)
             {
-                rotation = Quaternion.LookRotation(new Vector3(nextDestDir.x, nextDestDir.y + 30));
-                _navMeshAgent.transform.Rotate(rotation.x, rotation.y, rotation.z, Space.Self);
-                if(_navMeshAgent.transform.rotation.y == prevRotation.y + 30)
-                    _navMeshAgent.SetDestination(targetVector);
+                //rotation = Quaternion.LookRotation(new Vector3(nextDestDir.x, nextDestDir.y + 30));
+                rotation = Quaternion.Euler(new Vector3(nextDestDir.x, nextDestDir.y + 30));
             }
             else
-                _navMeshAgent.SetDestination(targetVector);*/
+            {
+                rotated = true;
+                _navMeshAgent.SetDestination(targetVector);
+            }*/
 
-            //SetDestination(_patrolPoints[_patrolPointIndex]);
-            Debug.Log("ENTERRED PATROL STATE");
+                Debug.Log("ENTERRED PATROL STATE");
                 EnteredState = true;
         }
         return EnteredState;
@@ -107,37 +114,44 @@ public class PatrolState : AbstractFSMClass
         //TODO : Check successfull state entry
         if (EnteredState)
         {
+            //Debug.Log("current angle value = " + angle);
             Vector3 targetVector = _currentWaypoint.transform.position;
-            if (angle > 0 && angle < 180 && rotated == false)
+            /*if (angle > 0 && angle <= 180 && rotated == false)
             {
-                rotation = Quaternion.LookRotation(new Vector3(nextDestDir.x, nextDestDir.y - 30));
+                //rotation = Quaternion.LookRotation(new Vector3(nextDestDir.x, nextDestDir.y - 30));
+                rotation = Quaternion.Euler(new Vector3(nextDestDir.x, nextDestDir.y - 30));
+                Debug.Log("Next direction : " + nextDestDir.y);
                 //_navMeshAgent.transform.rotation = rotation;
-                _navMeshAgent.transform.Rotate(rotation.x, rotation.y, rotation.z, Space.World);
+                _navMeshAgent.transform.Rotate(rotation.x, rotation.y, rotation.z, Space.Self);
                 Debug.Log("Previous rotation = " + prevRotation.eulerAngles.y);
                 Debug.Log("Current Rotation = " + _navMeshAgent.transform.rotation.eulerAngles.y);
-                if (_navMeshAgent.transform.rotation.y <= (prevRotation.eulerAngles.y - 30))
+                if (_navMeshAgent.transform.rotation.eulerAngles.y - prevRotation.eulerAngles.y <= (330))
                 {
+                    Debug.Log("Exit rotation");
                     rotated = true;
                     _navMeshAgent.SetDestination(targetVector);
                 }
             }
-            else if (angle < 0 && angle >= -180 && rotated == false)
+            else if (angle < 360 && angle >= 180 && rotated == false)
             {
-                rotation = Quaternion.LookRotation(new Vector3(nextDestDir.x, nextDestDir.y + 30));
-                _navMeshAgent.transform.Rotate(rotation.x, rotation.y, rotation.z, Space.World);
+                //rotation = Quaternion.LookRotation(new Vector3(nextDestDir.x, nextDestDir.y + 30));
+                rotation = Quaternion.Euler(new Vector3(nextDestDir.x, nextDestDir.y + 30));
+                Debug.Log("Next direction : " + nextDestDir.y);
+                _navMeshAgent.transform.Rotate(rotation.x, rotation.y, rotation.z, Space.Self);
                 Debug.Log("Previous rotation = " + prevRotation.eulerAngles.y);
                 Debug.Log("Current Rotation = " + _navMeshAgent.transform.rotation.eulerAngles.y);
-                if (_navMeshAgent.transform.rotation.y >= (prevRotation.eulerAngles.y + 30))
+                if (_navMeshAgent.transform.rotation.eulerAngles.y - prevRotation.eulerAngles.y >= (30))
                 {
                     rotated = true;
                     _navMeshAgent.SetDestination(targetVector);
                 }   
             }
             else
-            {
-                rotated = true;
+            {*/
+            //Debug.Log("Skipped");
+            rotated = true;
                 _navMeshAgent.SetDestination(targetVector);
-            }
+            //}
 
             Debug.Log("UPDATING PATROL STATE");
             if (Vector3.Distance(_navMeshAgent.transform.position, _currentWaypoint.transform.position) <= 1.5f)
