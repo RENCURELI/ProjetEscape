@@ -27,6 +27,7 @@ public class LevelScript : MonoBehaviour
     void PlayerEnteredForTheFirstTime()
     {
         Messenger.Broadcast("MainDoors_Open");
+
     }
 
     //// PLAYER COLLECTED MASK ////

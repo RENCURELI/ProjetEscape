@@ -34,6 +34,7 @@ public class GameManager : MonoBehaviour
     {
         currentGamePhase = newPhase;
         Debug.Log("Player is now in the " + currentGamePhase + " world.");
+
     }
 
     //// SEALS ////
