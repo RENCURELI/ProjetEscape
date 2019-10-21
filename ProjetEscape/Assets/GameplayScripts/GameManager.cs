@@ -34,7 +34,13 @@ public class GameManager : MonoBehaviour
     {
         currentGamePhase = newPhase;
         Debug.Log("Player is now in the " + currentGamePhase + " world.");
-
+        if (newPhase == GamePhase.Spirit)
+        {
+            SpiritVision.main.FadeIn();
+        } else
+        {
+            SpiritVision.main.FadeOut();
+        }
     }
 
     //// SEALS ////
