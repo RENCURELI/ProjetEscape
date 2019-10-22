@@ -43,13 +43,13 @@ namespace Assets._Scripts._AI.Senses
             }
         }
 
-        private void OnCollisionEnter(Collision collision)
+        /*private void OnCollisionEnter(Collision collision)
         {
             Player player = collision.gameObject.GetComponent<Player>();
             if(player != null)
             {
                 gm.PlayerGotHit(20f);
             }
-        }
+        }*/
     }
 }
