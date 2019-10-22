@@ -43,7 +43,7 @@ namespace Assets._Scripts._AI.Senses
             }
         }
 
-        private void OnCollisionEnter(Collision collision)
+        /*private void OnCollisionEnter(Collision collision)
         {
             print("Enemy Touch Detected");
             Player player = collision.gameObject.GetComponent<Player>();
@@ -52,6 +52,6 @@ namespace Assets._Scripts._AI.Senses
                 
                 gm.PlayerGotHit(20f);
             }
-        }
+        }*/
     }
 }
