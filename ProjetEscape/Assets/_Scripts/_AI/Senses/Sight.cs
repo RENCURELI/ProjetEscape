@@ -13,6 +13,8 @@ namespace Assets._Scripts._AI.Senses
         protected int fov = 30;
         protected int viewRange = 30;
 
+        public GameManager gm;
+
         private bool found = false;
 
         private Transform playerTrans;
@@ -33,7 +35,11 @@ namespace Assets._Scripts._AI.Senses
             elapsedTime += Time.deltaTime;
             //Debug.Log("elapsedTime = " + elapsedTime);
             if (elapsedTime >= detectRate)
-                DetectPlayer();
+            {
+                if (gm.GetCurrentGamePhase().Equals(GamePhase.Spirit))
+                    DetectPlayer();
+            }
+            
         }
 
         private void DetectPlayer()

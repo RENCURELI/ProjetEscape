@@ -14,22 +14,31 @@ namespace Assets._Scripts._AI.Senses
         public UnityEvent spotted;
         public UnityEvent lost;
 
+        private bool detected = false;
+
+        public GameManager gm;
+
         void OnTriggerEnter(Collider other)
         {
-            Player player = other.GetComponent<Player>();
-            if (player != null)
+            if (gm.GetCurrentGamePhase().Equals(GamePhase.Spirit))
             {
-                print("Enemy Touch Detected");
-                spotted.Invoke();
+                Player player = other.GetComponent<Player>();
+                if (player != null)
+                {
+                    print("Enemy Touch Detected");
+                    detected = true;
+                    spotted.Invoke();
+                }
             }
         }
 
         private void OnTriggerExit(Collider other)
         {
             Player player = other.GetComponent<Player>();
-            if (player != null)
+            if (player != null && detected == true)
             {
                 print("Enemy Touch Lost");
+                detected = false;
                 lost.Invoke();
             }
         }
