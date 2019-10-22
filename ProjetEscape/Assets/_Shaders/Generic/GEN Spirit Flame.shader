@@ -36,7 +36,7 @@
 
 			ZWrite Off
 			ZTest Less
-			Blend SrcAlpha OneMinusSrcAlpha
+			Blend One One
 			Cull Front
 
 			HLSLPROGRAM
@@ -95,9 +95,10 @@
 			float4 _SpiritColor;
 
 			float4 FragmentProgram(GenericFragmentInput input) : SV_TARGET{
-				float4 color = tex2D(_MainTex, input.uv) * _SpiritColor * input.color.r;
+				float2 coords = float2(input.uv.x, 1 - input.uv.y);
+				float4 color = tex2D(_MainTex, coords) * _SpiritColor * input.color.r;
 				if (color.a < 0.5) discard;
-				return saturate(color);
+				return saturate(color) * 0.05;
 			}
 
 			ENDHLSL

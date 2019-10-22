@@ -9,6 +9,9 @@
 		_MainColor("Color (Human)", color) = (1,1,1,1)
 		_SpiritColor("Color (Spirit)", color) = (1,1,1,1)
 
+		_BumpTex("Bump", 2D) = "bump" {}
+		_BumpScale("Bump Scale", float) = 1
+
 		_Radius("Radius", float) = 5
 		_Blend("Blend", float) = 1
 		_Width("Width", float) = 1
@@ -45,8 +48,13 @@
 			float4 _EmitColor;
 			float _EmitIntensity;
 
+			sampler2D _BumpTex;
+			float _BumpScale;
+
 			float4 FragmentProgram(GenericFragmentInput input) : SV_TARGET{
 				float4 color = tex2D(_MainTex, input.uv) * _MainColor * input.color.r;
+				float3 normalmap = UnpackScaleNormal(tex2D(_BumpTex, input.uv), _BumpScale);
+				ApplyNormalmap(normalmap, input);
 				float3 light = GetLightingDiffuseShadow(input);
 				color.rgb *= light;
 				float4 emit = tex2D(_EmitTex, input.uv) * _EmitColor * _EmitIntensity;

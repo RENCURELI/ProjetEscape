@@ -27,6 +27,8 @@ struct GenericFragmentInput {
 CBUFFER_START(UnityPerFrame)
 float4x4 unity_MatrixVP;
 float time;
+float4 unity_LightIndicesOffsetAndCount;
+float4 unity_4LightIndices0, unity_4LightIndices1;
 CBUFFER_END
 
 CBUFFER_START(UnityPerDraw)
@@ -39,7 +41,7 @@ CBUFFER_END
 TEXTURE2D(_CameraDepthTexture);
 SAMPLER(sampler_CameraDepthTexture);
 float4 _ZBufferParams;
-#endif
+#endif 
 
 // Functions
 
@@ -139,6 +141,11 @@ bool WorldTriangleVisible(float3 p0, float3 p1, float3 p2)
 float3 ViewDirection(GenericFragmentInput input)
 {
     return normalize(input.worldPosition - _WorldSpaceCameraPos);
+}
+
+float3 ViewDirection(float3 position)
+{
+	return normalize(position - _WorldSpaceCameraPos);
 }
 
 float3 ObjectDirection(float3 direction)

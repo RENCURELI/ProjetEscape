@@ -1,6 +1,7 @@
 ﻿using Game.RenderPipelines;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Rendering;
 using Conditional = System.Diagnostics.ConditionalAttribute;
@@ -26,6 +27,35 @@ public class OldConsolePipeline : RenderPipeline
         }
     }
 
+    private void ConfigureLights(CullingResults cull)
+    {
+        if (cull.visibleLights.Length > PipelineLighting.maxVisibleLights)
+        {
+            //Debug.Log("Too many lights");
+            Unity.Collections.NativeArray<int> lightIndices = cull.GetLightIndexMap(Unity.Collections.Allocator.Temp);
+            for (int i = PipelineLighting.maxVisibleLights; i < cull.visibleLights.Length; i++)
+            {
+                lightIndices[i] = -1;
+            }
+            cull.SetLightIndexMap(lightIndices);
+        }
+        for (int i = 0; i < cull.visibleLights.Length; i++)
+        {
+            VisibleLight light = cull.visibleLights[i];
+            //Debug.Log("Configuring light: " + light.lightType);
+            PipelineLighting.visibleLightColors[i] = light.finalColor;
+            Vector4 v = light.localToWorldMatrix.GetColumn(2);
+            v.x = -v.x; 
+            v.y = -v.y;
+            v.z = -v.z;
+            PipelineLighting.visibleLightDirections[i] = v;
+            PipelineLighting.visibleLightPositions[i] = light.localToWorldMatrix.GetColumn(3);
+            PipelineLighting.visibleLightTypes[i] = 0;
+            if (light.lightType == LightType.Point)
+                PipelineLighting.visibleLightTypes[i] = 2;
+        }
+    }
+
     private void RenderSingle(ScriptableRenderContext context, Camera camera)
     {
         SetupShaderProperties(context, camera);
@@ -38,6 +68,32 @@ public class OldConsolePipeline : RenderPipeline
 
         cameraBuffer.BeginSample("Render Camera");
 
+        if (cullingResults.visibleLights.Length > 0)
+        {
+            ConfigureLights(cullingResults);
+        }
+        else
+        {
+            cameraBuffer.SetGlobalVector(
+                PipelineLighting.lightIndicesOffsetAndCountID, Vector4.zero
+            );
+            Debug.Log("Zero lights");
+        }
+
+        cameraBuffer.SetGlobalVectorArray(
+            PipelineLighting.visibleLightColorsId, PipelineLighting.visibleLightColors
+        );
+        cameraBuffer.SetGlobalVectorArray(
+            PipelineLighting.visibleLightDirectionsId, PipelineLighting.visibleLightDirections
+        );
+        cameraBuffer.SetGlobalVectorArray(
+            PipelineLighting.visibleLightPositionsId, PipelineLighting.visibleLightPositions
+        );
+        cameraBuffer.SetGlobalFloatArray(
+            PipelineLighting.visibleLightTypesId, PipelineLighting.visibleLightTypes
+        );
+
+
         context.ExecuteCommandBuffer(cameraBuffer);
         cameraBuffer.Clear();
 
@@ -47,6 +103,7 @@ public class OldConsolePipeline : RenderPipeline
         }
         else
         {
+            //InitializeRenderers();
             ScreenOutputProtocol(context, camera, cullingResults);
         }
 
@@ -126,7 +183,7 @@ public class OldConsolePipeline : RenderPipeline
         Shader.SetGlobalVector("_CameraDirection", camera.transform.forward);
         Shader.SetGlobalVector("_ZBufferParams", camera.transform.forward);
         Shader.SetGlobalFloat("time", Time.time);
-        SetupLighting();
+        //SetupLighting();
         cameraBuffer.GetTemporaryRT(cameraColorTextureId, camera.pixelWidth, camera.pixelHeight, 0);
         cameraBuffer.GetTemporaryRT(cameraDepthTextureId, camera.pixelWidth, camera.pixelHeight, 24, FilterMode.Point, RenderTextureFormat.Depth);
     }
@@ -135,11 +192,6 @@ public class OldConsolePipeline : RenderPipeline
     {
         cameraBuffer.ReleaseTemporaryRT(cameraColorTextureId);
         cameraBuffer.ReleaseTemporaryRT(cameraDepthTextureId);
-    }
-
-    private void SetupLighting()
-    {
-        PipelineLighting.SetupShaderVariables();
     }
 
     private void GrabBuffers(ScriptableRenderContext context)
@@ -175,7 +227,10 @@ public class OldConsolePipeline : RenderPipeline
     {
         SortingSettings sortingSettings = new SortingSettings(camera);
         sortingSettings.criteria = criteria;
-        DrawingSettings drawingSettings = new DrawingSettings() { sortingSettings = sortingSettings };
+        DrawingSettings drawingSettings = new DrawingSettings()
+        {
+            sortingSettings = sortingSettings
+        };
         for (int i = 0; i < passes.Length; i++)
         {
             drawingSettings.SetShaderPassName(i, new ShaderTagId(passes[i]));

@@ -12,7 +12,7 @@
 
 			Pass
 			{
-				Tags{"LightMode" = "Static" "Queue"="Geometetry" "RenderType"="Opaque"}
+				Tags{"LightMode" = "Opaque" "Queue"="Geometetry" "RenderType"="Opaque"}
 
 				ZWrite On
 				ZTest Less
@@ -34,7 +34,7 @@
 					float4 color = tex2D(_MainTex, input.uv) * _MainColor * input.color.r;
 					float3 normalmap = UnpackScaleNormal(tex2D(_BumpTex, input.uv), _BumpScale);
 					ApplyNormalmap(normalmap, input);
-					float3 light = GetLightingDiffuse(input);
+					float3 light = GetLightingDiffuseShadow(input);
 					color.rgb *= light;
 					return color;
 				}

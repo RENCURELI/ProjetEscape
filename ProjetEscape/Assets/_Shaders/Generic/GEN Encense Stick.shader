@@ -46,7 +46,7 @@
 				if (input.worldPosition.y + 0.4f > objPos.y + _BurntFactor) discard;
 				if (input.worldPosition.y + 0.4f + _Height > objPos.y + _BurntFactor) return _EmitColor * _EmitIntensity;
 				float4 color = tex2D(_MainTex, input.uv) * _MainColor * input.color.r;
-				float3 light = GetLightingDiffuseShadow(input);
+				float3 light = GetLighting(input, color.rgb);
 				color.rgb *= light;
 				float4 emit = tex2D(_EmitTex, input.uv) * _EmitIntensity * (abs(cos(time*_Speed))*0.5+0.5);
 				return color + emit;
