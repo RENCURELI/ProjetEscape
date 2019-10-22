@@ -61,7 +61,7 @@
 			float4 FragmentProgram(GenericFragmentInput input) : SV_TARGET{
 				if (TransitionFactor(input) > 0) discard;
 				float4 color = tex2D(_MainTex, input.uv) * _MainColor * input.color.r;
-				float3 light = GetLightingDiffuseShadow(input);
+				float3 light = GetLighting(input, color.rgb);
 				color.rgb *= light;
 				return color;
 			}
@@ -90,7 +90,7 @@
 			float4 FragmentProgram(GenericFragmentInput input) : SV_TARGET{
 				if (TransitionFactor(input) < 1) discard;
 				float4 color = tex2D(_MainTex, input.uv) * _SpiritColor * input.color.r;
-				float3 light = GetLightingDiffuseShadow(input);
+				float3 light = GetLighting(input, color.rgb);
 				color.rgb *= light;
 				return color;
 			}
@@ -167,7 +167,7 @@
 			float4 FragmentProgram(GenericFragmentInput input) : SV_TARGET{
 				float4 humanColor = tex2D(_MainTex, input.uv);
 				float4 color = lerp(humanColor*_MainColor, humanColor*_SpiritColor,0.5);
-				float3 light = GetLightingDiffuseShadow(input);
+				float3 light = GetLighting(input, color.rgb);
 				color.rgb *= light;
 				return saturate(color);
 			}

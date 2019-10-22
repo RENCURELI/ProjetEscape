@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using Game.RenderPipelines;
+using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
@@ -7,10 +8,12 @@ using UnityEngine;
 public class CandleBehaviour : MonoBehaviour
 {
     private CandleSensor candleSensor;
+    //public LightSource lightSource;
 
     private void Start()
     {
         candleSensor = GetComponent<CandleSensor>();
+        //lightSource = GetComponentInChildren<LightSource>();
         InitializeStateMachine();
     }
 
@@ -69,6 +72,7 @@ public class CandleBehaviour : MonoBehaviour
             candleSensor.litFactor = 1;
             action.done = true;
         }
+        
     }
 
     private void State_Dim(StateMachine machine, StateMachine.State state, float deltaTime)
@@ -84,6 +88,7 @@ public class CandleBehaviour : MonoBehaviour
             candleSensor.litFactor = 0;
             action.done = true;
         }
+        
     }
 
     private void State_Idle(StateMachine machine, StateMachine.State state, float deltaTime)

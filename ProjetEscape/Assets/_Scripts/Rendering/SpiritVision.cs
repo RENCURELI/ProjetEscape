@@ -69,7 +69,7 @@ public class SpiritVision : MonoBehaviour
         {
             if (cancel != cancelFadeToken) return;
             timer -= transitionUpdateTime;
-            float x = timer / transitionTime;
+            float x = Mathf.Clamp01( timer / transitionTime);
             float y = Mathf.Pow(x, transitionSlope);
             manualRadius = 1-y;
             await Task.Delay(TimeSpan.FromSeconds(transitionUpdateTime));

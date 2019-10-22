@@ -9,6 +9,7 @@ public class MyFirstPipeline : RenderPipelineAsset
 
     protected override RenderPipeline CreatePipeline()
     {
+        GraphicsSettings.lightsUseLinearIntensity = true;
         return new OldConsolePipeline() {
 
         };

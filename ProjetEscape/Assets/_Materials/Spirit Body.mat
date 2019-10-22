@@ -40,7 +40,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 10300, guid: 0000000000000000f000000000000000, type: 0}
+        m_Texture: {fileID: 2800000, guid: 45dcb33de98052148b186eb453b4bcca, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap:
@@ -59,7 +59,7 @@ Material:
     - TessellationEdgeLength: 5
     - TessellationLimit: 10
     - TessellationUniform: 1
-    - _Amplitude: 3.75
+    - _Amplitude: 1.91
     - _Blend: 1
     - _BumpScale: 1
     - _Cutoff: 0.5
@@ -68,7 +68,7 @@ Material:
     - _GlossMapScale: 1
     - _Glossiness: 0.5
     - _GlossyReflections: 1
-    - _Height: 1
+    - _Height: 2
     - _LifeTime: 2
     - _Metallic: 0
     - _Mode: 0
@@ -77,11 +77,11 @@ Material:
     - _Radius: 11.7
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
-    - _Speed: 0.2
-    - _Spread: -0.1
+    - _Speed: 0.5
+    - _Spread: 0.28
     - _SrcBlend: 1
     - _UVSec: 0
-    - _Width: 1
+    - _Width: 2
     - _ZWrite: 1
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
