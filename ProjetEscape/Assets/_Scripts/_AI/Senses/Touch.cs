@@ -25,7 +25,7 @@ namespace Assets._Scripts._AI.Senses
                 Player player = other.GetComponent<Player>();
                 if (player != null)
                 {
-                    print("Enemy Touch Detected");
+
                     detected = true;
                     spotted.Invoke();
                 }
@@ -45,9 +45,11 @@ namespace Assets._Scripts._AI.Senses
 
         private void OnCollisionEnter(Collision collision)
         {
+            print("Enemy Touch Detected");
             Player player = collision.gameObject.GetComponent<Player>();
             if(player != null)
             {
+                
                 gm.PlayerGotHit(20f);
             }
         }

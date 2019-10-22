@@ -124,13 +124,14 @@ public class GameManager : MonoBehaviour
     
     public void PlayerGotHit(float damage)
     {
+        Debug.Log("Player lost " + damage + " seconds");
         if (timerFinished)
         {
             GameOver();
         } else
         {
             LostTime(damage);
-
+            
             //Damage sequence.
         }
     }
