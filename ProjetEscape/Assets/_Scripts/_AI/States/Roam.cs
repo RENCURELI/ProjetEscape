@@ -73,7 +73,7 @@ namespace Assets._Scripts._AI.States
                     _fsm.EnterState(FSMStateType.PATROL);
                 
                 Debug.Log("UPDATING ROAM STATE");
-                Debug.Log("Roaming Time = " + elapsedTime);
+                //Debug.Log("Roaming Time = " + elapsedTime);
             }
         }
 

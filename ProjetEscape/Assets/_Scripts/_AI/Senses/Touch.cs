@@ -42,5 +42,14 @@ namespace Assets._Scripts._AI.Senses
                 lost.Invoke();
             }
         }
+
+        private void OnCollisionEnter(Collision collision)
+        {
+            Player player = collision.gameObject.GetComponent<Player>();
+            if(player != null)
+            {
+                gm.PlayerGotHit(20f);
+            }
+        }
     }
 }
