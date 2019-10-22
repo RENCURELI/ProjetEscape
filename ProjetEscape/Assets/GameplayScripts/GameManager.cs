@@ -60,9 +60,11 @@ public class GameManager : MonoBehaviour
         if (newPhase == GamePhase.Spirit)
         {
             SpiritVision.main.FadeIn();
+            Messenger.Broadcast("EnteredSpiritWorld");
         } else
         {
             SpiritVision.main.FadeOut();
+            Messenger.Broadcast("EnteredRealWorld");
         }
     }
 
