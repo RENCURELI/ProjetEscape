@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 45cccd48bbb816945bbe54692bb03d13
+guid: 1c81884240c224d4caa095a7a7309191
 ModelImporter:
   serializedVersion: 25
   internalIDToNameTable: []
@@ -7,8 +7,33 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: pasted__lambert10
-    second: {fileID: 2100000, guid: 2c909110e240ff643baf0c09f0485bff, type: 2}
+      name: Excl_Esprits.001
+    second: {fileID: 2100000, guid: 3779444cddaa0234593f40471920a07d, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Mask.001
+    second: {fileID: 2100000, guid: 3779444cddaa0234593f40471920a07d, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Material.012
+    second: {fileID: 2100000, guid: 3779444cddaa0234593f40471920a07d, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: lambert2
+    second: {fileID: 2100000, guid: 3779444cddaa0234593f40471920a07d, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: lambert4
+    second: {fileID: 2100000, guid: 3779444cddaa0234593f40471920a07d, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: lambert6.001
+    second: {fileID: 2100000, guid: 3779444cddaa0234593f40471920a07d, type: 2}
   materials:
     importMaterials: 1
     materialName: 0
