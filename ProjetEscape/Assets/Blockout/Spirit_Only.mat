@@ -7,8 +7,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Excl_Esprits
-  m_Shader: {fileID: 4800000, guid: e17855d486a55e146b1eaa1d67aabb37, type: 3}
+  m_Name: Spirit_Only
+  m_Shader: {fileID: 4800000, guid: 1b12eb25b4be2a54780ff3596a8ba0c5, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
