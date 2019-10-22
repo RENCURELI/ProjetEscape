@@ -18,6 +18,8 @@ public class LevelScript : MonoBehaviour
         Messenger.AddListener("SealZCollected", PlayerCollectedSealZ);
         Messenger.AddListener("AllSealsCollected", PlayerCollectedAllSeals);
 
+        Messenger.AddListener("NoTimeLeft", TimerReachedZero);
+
     }
 
     
@@ -62,5 +64,13 @@ public class LevelScript : MonoBehaviour
     void PlayerCollectedAllSeals()
     {
         Messenger.Broadcast("MainDoors_Open");
+    }
+
+    //// TIMER REACHED ZERO /////
+    /////////////////////////////
+    
+    void TimerReachedZero()
+    {
+
     }
 }
