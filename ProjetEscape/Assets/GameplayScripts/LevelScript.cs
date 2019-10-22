@@ -18,6 +18,8 @@ public class LevelScript : MonoBehaviour
         Messenger.AddListener("SealZCollected", PlayerCollectedSealZ);
         Messenger.AddListener("AllSealsCollected", PlayerCollectedAllSeals);
 
+        Messenger.AddListener("PlayerEscapedTemple", End);
+
         Messenger.AddListener("NoTimeLeft", TimerReachedZero);
 
     }
@@ -38,6 +40,7 @@ public class LevelScript : MonoBehaviour
     void PlayerCollectedMask()
     {
         Messenger.Broadcast("MainDoors_Close");
+        Messenger.Broadcast("EnableEscapeTrigger");
     }
 
     //// SEALS COLLECTED ////
@@ -72,5 +75,13 @@ public class LevelScript : MonoBehaviour
     void TimerReachedZero()
     {
 
+    }
+
+    //// PLAYER ESCAPED TEMPLE /////
+    ////////////////////////////////
+    
+    void End()
+    {
+        Debug.Log("You won");
     }
 }
