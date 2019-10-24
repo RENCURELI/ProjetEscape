@@ -14,10 +14,12 @@ public class OnWorldChangeEnableCollision : MonoBehaviour
         {
             Messenger.AddListener("EnteredSpiritWorld", DisableCollisionTrigger);
             Messenger.AddListener("EnteredRealWorld", EnableCollisionTrigger);
+            EnableCollisionTrigger();
         } else
         {
             Messenger.AddListener("EnteredSpiritWorld", EnableCollisionTrigger);
             Messenger.AddListener("EnteredRealWorld", DisableCollisionTrigger);
+            DisableCollisionTrigger();
         }
 
     }
